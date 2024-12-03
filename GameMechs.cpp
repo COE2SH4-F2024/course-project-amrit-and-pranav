@@ -1,6 +1,9 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
+#include "Player.h"
 
+
+//constructor
 GameMechs::GameMechs()
 {
 
@@ -11,11 +14,11 @@ GameMechs::GameMechs()
     loseFlag = false;
 
 
-    boardSizeX = 30;
-    boardSizeY = 15;
+    BoardLength = 30;
+    BoardHeight = 15;
 
 }
-
+//additional constructor
 GameMechs::GameMechs(int boardX, int boardY)
 {
 
@@ -26,8 +29,8 @@ GameMechs::GameMechs(int boardX, int boardY)
     loseFlag = false;
 
 
-    boardSizeX = boardX;
-    boardSizeY = boardY;
+    BoardLength = boardX;
+    BoardHeight = boardY;
 
 
 }
@@ -35,7 +38,7 @@ GameMechs::GameMechs(int boardX, int boardY)
 // do you need a destructor?
 GameMechs::~GameMechs()
 {
-    //nothing on heap at the moment so no.
+    //theres nothing on heap so no
 }
 
 bool GameMechs::getExitFlagStatus() const
@@ -75,27 +78,28 @@ void GameMechs::incrementScore()
 int GameMechs::getBoardSizeX() const
 {
 
-return boardSizeX;
+return BoardLength;
 
 }
 
 int GameMechs::getBoardSizeY() const
 {
 
-    return boardSizeY;
-
+    return BoardHeight;
 
 }
 
 
 void GameMechs::setExitTrue()
 {
+
     exitFlag = true;
 
 }
 
 void GameMechs::setLoseFlag()
 {
+
     loseFlag = true;
     
 }
@@ -114,15 +118,31 @@ void GameMechs::clearInput()
 
 }
 
-void GameMechs::generateFood(objPos blockOff)
-{
 
+void GameMechs::generateFood(objPos blockedSpace)
+{
+    srand(time(NULL));
+    bool ValidPos = false;
+    
+    // Keep generating food untill you find a valid position
+    while (!ValidPos)
+    {
+        int randomX = rand() % (BoardLength - 2) + 1;
+        int randomY = rand() % (BoardHeight - 2) + 1;
+        
+        // make sure food is not placed in the same place as a player 
+        if (randomX == blockedSpace.pos->x && randomY == blockedSpace.pos->y)
+        {
+            continue;
+        }
+
+        //set the food position to random coords
+        FoodPos.setObjPos(randomX, randomY, 'o');
+        ValidPos = true;
+    }
 }
 
 objPos GameMechs::getFoodPos() const
 {
-    return food;
+    return FoodPos;
 }
-
-
-// More methods should be added here

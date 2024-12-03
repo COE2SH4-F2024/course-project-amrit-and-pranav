@@ -17,10 +17,10 @@ class GameMechs
         bool loseFlag;
         int score;
 
-        int boardSizeX;
-        int boardSizeY;
+        int BoardLength;
+        int BoardHeight;
 
-        objPos food;
+        objPos FoodPos;
 
     public:
         GameMechs();
